@@ -1,0 +1,56 @@
+aid: robin-ai
+name: Robin AI FinOps Alignment
+specificationVersion: FinOps Framework / FOCUS 1.0 (partial mapping)
+description: >-
+  Robin AI did not publish a customer-facing FinOps surface — no usage API,
+  no cost API, no metered self-service tier. Billing was negotiated per
+  enterprise contract (Word Add-In seats, Workspace seats, and metered API
+  document processing). What follows is a best-effort FOCUS-aligned mapping
+  of the chargeable dimensions inferred from public product and API
+  documentation, useful for procurement teams modelling Robin spend in their
+  own FinOps tooling.
+source: https://robinai.com
+updated: '2026-05-24'
+billingSurface:
+  selfService: false
+  invoicedOnly: true
+  procurementChannels:
+    - Direct enterprise sales
+    - AWS Marketplace
+    - Microsoft AppSource (Word Add-In)
+chargeableDimensions:
+  - id: word-add-in-seat
+    focusServiceCategory: AI and Machine Learning
+    focusChargeCategory: Usage
+    pricingModel: Subscription
+    metric: seat-month
+    description: Per-user seat for the Robin for Microsoft Word add-in.
+  - id: workspace-seat
+    focusServiceCategory: AI and Machine Learning
+    focusChargeCategory: Usage
+    pricingModel: Subscription
+    metric: seat-month
+    description: Per-user seat for the Robin web workspace (chat, search, obligation tracking).
+  - id: api-document-processed
+    focusServiceCategory: AI and Machine Learning
+    focusChargeCategory: Usage
+    pricingModel: OnDemand
+    metric: document
+    description: Metered consumption for documents uploaded and processed through the v1 API and Tables extraction.
+  - id: tables-built
+    focusServiceCategory: AI and Machine Learning
+    focusChargeCategory: Usage
+    pricingModel: OnDemand
+    metric: table-build
+    description: Tables extraction jobs run against a Template and a set of Documents.
+reporting:
+  customerCostAPI: false
+  customerUsageAPI: false
+  invoicePDF: true
+  procurementInvoiceVia:
+    - Direct (Stripe/wire)
+    - AWS Marketplace consolidated billing
+notes:
+  - No public Usage or Cost API exists; enterprise customers receive invoices and CSV exports through their account team.
+  - For FOCUS-aligned reporting, treat Robin as a SaaS line item in the AI and Machine Learning service category.
+  - AWS Marketplace procurement allows Robin spend to be drawn down against AWS EDP commits.

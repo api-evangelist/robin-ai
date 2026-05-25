@@ -1,0 +1,60 @@
+name: document-management
+description: >-
+  Manage Robin AI Documents — upload, list with property filters, retrieve,
+  and attach typed custom Properties for downstream extraction and reporting.
+provider: robin-ai
+api: robin-legal-intelligence-platform-api
+version: 0.1.0
+auth:
+  type: apiKey
+  header: X-API-Key
+steps:
+  - id: upload-document
+    operation: createDocument
+    method: POST
+    path: /v1/documents
+    contentType: multipart/form-data
+    inputs:
+      file: { type: binary, required: true }
+      group_id: { type: string, required: false }
+    outputs:
+      document_id: $.id
+  - id: list-property-definitions
+    operation: listProperties
+    method: GET
+    path: /v1/properties
+    outputs:
+      definitions: $.properties
+  - id: tag-document
+    operation: addDocumentProperties
+    method: POST
+    path: /v1/documents/{document_id}/properties
+    pathParams:
+      document_id: { from: steps.upload-document.document_id }
+    body:
+      - definition_key: contract_type
+        value: MSA
+      - definition_key: counterparty
+        value: Acme Corp
+      - definition_key: effective_date
+        value: '2026-04-01'
+  - id: search-documents
+    operation: listDocuments
+    method: GET
+    path: /v1/documents
+    query:
+      status: active
+      type: MSA
+    body:
+      properties:
+        - definition_key: counterparty
+          operator: eq
+          value: Acme Corp
+    outputs:
+      documents: $.documents
+  - id: get-document
+    operation: getDocument
+    method: GET
+    path: /v1/documents/{document_id}
+    pathParams:
+      document_id: { from: steps.upload-document.document_id }

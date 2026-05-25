@@ -1,0 +1,89 @@
+name: Robin AI Vocabulary
+description: >-
+  Operational and domain vocabulary for Robin AI's Legal Intelligence
+  Platform — the core resources, statuses, and answer formats exposed by the
+  v1 API alongside the legal-domain concepts the platform reasons over.
+provider: robin-ai
+version: 0.1.0
+dimensions:
+  resources:
+    - id: document
+      label: Document
+      description: An uploaded contract or legal instrument; identified by doc_*.
+    - id: table
+      label: Table
+      description: A bulk extraction job running a Template across a set of Documents; identified by tbl_*.
+    - id: template
+      label: Template
+      description: A reusable, ordered set of typed prompts that drives Table extraction; identified by tpl_*.
+    - id: property
+      label: Property
+      description: A typed custom data point attached to a Document (string, number, currency, date-time, boolean).
+    - id: group
+      label: Group
+      description: A container for Documents and Tables; can be personal, private, public, report_public, or report_private.
+    - id: prompt
+      label: Prompt
+      description: A single named question within a Template, with a prompt_text and a typed answer_format.
+    - id: result
+      label: Result
+      description: The Answer produced by running a Prompt against a Document, with optional Citations.
+    - id: citation
+      label: Citation
+      description: A clickable pointer back to the source span (page/text) that grounded an Answer.
+  statuses:
+    table:
+      - draft
+      - building
+      - completed
+      - failed
+      - cancelled
+    document:
+      - active
+      - inactive
+      - archived
+      - deleted
+    processing:
+      - pending
+      - processing
+      - completed
+      - failed
+    result:
+      - pending
+      - building
+      - completed
+      - failed
+  answerFormats:
+    - text_summary
+    - text_word
+    - number_general
+    - number_currency
+    - number_percentage
+    - date
+    - boolean
+    - list
+  legalConcepts:
+    - Contract
+    - MSA
+    - NDA
+    - Lease
+    - Renewal Term
+    - Liability Cap
+    - Indemnification
+    - Governing Law
+    - Termination
+    - Notice Period
+    - Effective Date
+    - Counterparty
+    - Playbook
+    - Clause Deviation
+    - Redline
+    - Obligation
+  capabilityClasses:
+    - Contract Review
+    - Contract Drafting
+    - Clause Search
+    - Structured Extraction
+    - Playbook Enforcement
+    - Obligation Tracking
+    - Document Chat

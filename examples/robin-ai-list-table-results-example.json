@@ -1,0 +1,55 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.robinai.com/v1/tables/tbl_33mnop9012qrst5678/results?limit=2&status=completed",
+    "headers": {
+      "X-API-Key": "rk_live_REDACTED"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "has_more": false,
+      "results": [
+        {
+          "status": "completed",
+          "prompt": {
+            "name": "Renewal Term",
+            "prompt_text": "What is the auto-renewal term, if any?",
+            "answer_format": "text_summary"
+          },
+          "document": {
+            "id": "doc_11abcd1234efgh6789",
+            "name": "acme-msa-2026.pdf"
+          },
+          "answer": {
+            "value": "Auto-renews for successive 12-month terms unless either party gives 60 days' written notice.",
+            "formatted": "12-month auto-renewal, 60-day notice"
+          },
+          "citations": [
+            { "page": 8, "text": "This Agreement shall automatically renew for successive twelve (12) month periods..." }
+          ]
+        },
+        {
+          "status": "completed",
+          "prompt": {
+            "name": "Annual Cap",
+            "prompt_text": "What is the annual liability cap?",
+            "answer_format": "number_currency"
+          },
+          "document": {
+            "id": "doc_11abcd1234efgh6789",
+            "name": "acme-msa-2026.pdf"
+          },
+          "answer": {
+            "value": 2500000,
+            "formatted": "USD 2,500,000"
+          },
+          "citations": [
+            { "page": 14, "text": "Each party's aggregate liability... shall not exceed two million five hundred thousand US dollars ($2,500,000)..." }
+          ]
+        }
+      ]
+    }
+  }
+}

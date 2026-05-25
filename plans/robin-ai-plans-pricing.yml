@@ -1,0 +1,63 @@
+aid: robin-ai
+name: Robin AI Plans and Pricing
+specificationVersion: API Commons Plans 0.1
+description: >-
+  Robin AI did not publish public per-seat or per-document pricing for either
+  its Word Add-In or its Legal Intelligence Platform API. Sales engagement
+  was demo-led and quoted enterprise contracts. The plan structure below
+  reflects the public-facing product tiers (Word Add-In, Workspace, API
+  access) without dollar amounts, plus an AWS Marketplace listing for
+  procurement.
+source: https://robinai.com
+updated: '2026-05-24'
+plans:
+  - id: word-add-in
+    name: Robin for Microsoft Word
+    description: Robin's contract review, playbook, and redline AI embedded directly in Microsoft Word. Sold via enterprise quote and AWS Marketplace / Microsoft AppSource.
+    pricing: Quote
+    metric: seat
+    timeFrame: month
+    features:
+      - Playbook-based clause review and redlining
+      - One-click first-pass review of incoming drafts
+      - Chat with the document while editing
+      - Suggested replacements grounded in the company's playbook
+      - SOC 2 / ISO 27001 / GDPR
+    sources:
+      - https://marketplace.microsoft.com/en-in/product/office/WA200006060
+      - https://robinai.com
+  - id: workspace
+    name: Robin Workspace
+    description: Web app for collaborative document chat, advanced search, Tables extraction, and obligation tracking. Sold per seat with usage-based extraction allowances; enterprise quote only.
+    pricing: Quote
+    metric: seat
+    timeFrame: month
+    features:
+      - Advanced contract search across an entire estate
+      - Document chat and conversation history
+      - Tables extraction with reusable Templates
+      - Obligation tracking, deadline alerts, renewal calendar
+      - Workspaces and Groups for collaboration
+      - SSO and audit logging on enterprise tier
+    sources:
+      - https://robinai.com
+  - id: api-access
+    name: Robin Legal Intelligence Platform API
+    description: Programmatic access to Documents, Tables, Templates, Properties, and Groups via api.robinai.com with X-API-Key authentication. Typically bundled with Workspace under an enterprise agreement; metered on documents processed and Tables built.
+    pricing: Quote
+    metric: document-processed
+    timeFrame: usage
+    features:
+      - All Documents, Tables, Templates, Properties, Groups endpoints
+      - Cursor pagination, ISO 8601 date filters, property filters
+      - Clickable Citations on every extracted Answer
+      - Multipart upload of PDFs and Word files
+      - SOC 2 / ISO 27001 / GDPR
+    sources:
+      - https://robinai.com/robin-api
+  - id: aws-marketplace
+    name: Robin AI on AWS Marketplace
+    description: Procurement and billing for Robin AI via AWS Marketplace.
+    pricing: Quote
+    sources:
+      - https://aws.amazon.com/marketplace/reviews/reviews-list/prodview-zvgmcfv4tqtma

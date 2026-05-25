@@ -1,0 +1,75 @@
+extends: [[spectral:oas, all]]
+rules:
+  robin-ai-operation-id-camel-case:
+    description: All operationIds should be lowerCamelCase (Robin convention).
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z][a-zA-Z0-9]+$
+  robin-ai-operation-summary-title-case:
+    description: All operation summaries should be Title Case.
+    severity: warn
+    given: $.paths.*[get,post,put,patch,delete].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: ^([A-Z][a-zA-Z]*)( ([A-Z][a-zA-Z0-9]*|To|From|Of|In|For|And|Or|The|A|An))*$
+  robin-ai-resource-ids-prefixed:
+    description: Resource IDs follow the typed-prefix convention (doc_, tbl_, tpl_, grp_).
+    severity: info
+    given: $.components.schemas.*.properties.id.pattern
+    then:
+      function: pattern
+      functionOptions:
+        match: ^\^(doc|tbl|tpl|grp)_
+  robin-ai-v1-path-prefix:
+    description: All paths must be under the /v1/ namespace.
+    severity: error
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        match: ^/v1/
+  robin-ai-x-api-key-auth:
+    description: The API must use X-API-Key header authentication.
+    severity: error
+    given: $.components.securitySchemes
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            ApiKeyAuth:
+              type: object
+              properties:
+                type: { const: apiKey }
+                in: { const: header }
+                name: { const: X-API-Key }
+              required: [type, in, name]
+          required: [ApiKeyAuth]
+  robin-ai-cursor-pagination:
+    description: List endpoints should support limit and starting_after cursor pagination.
+    severity: warn
+    given: $.paths[?(@property.match(/^\/v1\/(tables|documents|templates|groups)$/))].get.parameters[*].name
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - limit
+          - starting_after
+          - created_before
+          - created_after
+          - updated_before
+          - updated_after
+          - name
+          - id
+          - type
+          - group
+          - group_id
+          - group_type
+          - is_private
+          - status
+          - document_id

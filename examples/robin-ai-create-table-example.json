@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.robinai.com/v1/tables",
+    "headers": {
+      "X-API-Key": "rk_live_REDACTED",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Q2 2026 MSA Renewals",
+      "template_id": "tpl_msa_key_terms",
+      "document_ids": ["doc_11abcd1234efgh6789", "doc_22wxyz5678ijkl1234"],
+      "include_citations": true,
+      "group_id": "grp_msa_2026"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "id": "tbl_33mnop9012qrst5678",
+      "status": "draft"
+    }
+  }
+}

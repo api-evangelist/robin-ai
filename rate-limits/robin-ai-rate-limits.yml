@@ -1,0 +1,51 @@
+aid: robin-ai
+name: Robin AI Rate Limits
+specificationVersion: API Commons Rate Limits 0.1
+description: >-
+  Robin AI's public API documentation enumerates HTTP 429 Too Many Requests
+  as a documented error response on Documents and Tables endpoints, but does
+  not publish concrete per-second, per-minute, or per-day numerical
+  thresholds. Limits are negotiated per enterprise contract. Cursor
+  pagination caps at 1000 items per page across all list endpoints.
+source: https://robinai.com/robin-api
+updated: '2026-05-24'
+scope:
+  api: robin-legal-intelligence-platform-api
+  baseURL: https://api.robinai.com
+  authentication: X-API-Key
+policies:
+  - id: too-many-requests
+    type: requestRate
+    enforced: true
+    httpStatus: 429
+    description: >-
+      Documented in the OpenAPI spec as a possible response on POST /v1/documents
+      and other endpoints. Exact thresholds (requests per second / minute) are
+      not published; clients should implement exponential backoff on 429.
+    sources:
+      - https://robinai.com/robin-api
+  - id: pagination-page-size
+    type: pagination
+    enforced: true
+    description: List endpoints (tables, documents, templates, groups, table results) accept `limit` between 1 and 1000 with a default of 100, paged via the `starting_after` cursor.
+    parameters:
+      limit:
+        min: 1
+        max: 1000
+        default: 100
+      cursor: starting_after
+    sources:
+      - https://robinai.com/robin-api
+  - id: payment-required
+    type: quota
+    enforced: true
+    httpStatus: 402
+    description: >-
+      Documented 402 Payment Required response indicates account-level usage
+      cap or billing issue has been reached. Specific quota numbers are not
+      published.
+    sources:
+      - https://robinai.com/robin-api
+notes:
+  - Robin's surface is enterprise-only; concrete per-account limits are negotiated and provisioned at sales time.
+  - 429 backoff is standard; clients should respect any Retry-After header if present.

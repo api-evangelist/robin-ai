@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/robin-ai/main/json-schema/robin-ai-table-schema.json",
+  "title": "Robin AI Table",
+  "description": "A Robin AI Table — a bulk extraction job that runs a Template's prompts across a set of Documents and produces structured Results with clickable Citations.",
+  "type": "object",
+  "required": ["id", "name", "status", "created_at", "updated_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^tbl_[A-Za-z0-9]+$",
+      "examples": ["tbl_11abcd1234efgh6789"]
+    },
+    "name": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "building", "completed", "failed", "cancelled"]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "started_at": { "type": ["string", "null"], "format": "date-time" },
+    "completed_at": { "type": ["string", "null"], "format": "date-time" },
+    "failed_at": { "type": ["string", "null"], "format": "date-time" },
+    "cancelled_at": { "type": ["string", "null"], "format": "date-time" },
+    "document_count": { "type": "integer", "minimum": 0 },
+    "result_count": { "type": "integer", "minimum": 0 },
+    "group_id": { "type": "string" },
+    "group_name": { "type": "string" }
+  }
+}

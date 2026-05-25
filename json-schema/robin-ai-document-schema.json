@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/robin-ai/main/json-schema/robin-ai-document-schema.json",
+  "title": "Robin AI Document",
+  "description": "A document uploaded to Robin AI's Legal Intelligence Platform for AI-powered contract analysis and structured extraction.",
+  "type": "object",
+  "required": ["id", "name", "document_status", "processing_status", "created_at", "updated_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable Robin document identifier.",
+      "pattern": "^doc_[A-Za-z0-9]+$",
+      "examples": ["doc_11abcd1234efgh6789"]
+    },
+    "name": { "type": "string", "description": "Human-readable filename or title." },
+    "type": { "type": ["string", "null"], "description": "Detected document type (e.g., NDA, MSA, lease)." },
+    "group": { "type": ["string", "null"], "description": "Group ID this document belongs to." },
+    "document_status": {
+      "type": "string",
+      "enum": ["active", "inactive", "archived", "deleted"]
+    },
+    "processing_status": {
+      "type": "string",
+      "enum": ["pending", "processing", "completed", "failed"]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "properties": {
+      "type": "array",
+      "description": "Typed custom properties assigned to this document.",
+      "items": {
+        "type": "object",
+        "required": ["definition_key", "value"],
+        "properties": {
+          "definition_key": { "type": "string" },
+          "value": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

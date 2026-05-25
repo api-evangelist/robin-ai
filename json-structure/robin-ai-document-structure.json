@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-structure.org/draft-00/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/robin-ai/main/json-structure/robin-ai-document-structure.json",
+  "title": "Robin AI Document Structure",
+  "description": "JSON Structure description of the Robin AI Document resource — the primary uploaded artifact in the Legal Intelligence Platform.",
+  "type": "object",
+  "name": "Document",
+  "fields": [
+    { "name": "id", "type": "string", "format": "robin-doc-id", "required": true, "description": "Stable Robin document identifier (doc_*)." },
+    { "name": "name", "type": "string", "required": true, "description": "Human-readable filename or title." },
+    { "name": "type", "type": "string", "nullable": true, "description": "Detected document type (NDA, MSA, lease, etc.)." },
+    { "name": "group", "type": "string", "nullable": true, "description": "Group ID this document belongs to." },
+    { "name": "document_status", "type": "enum", "values": ["active", "inactive", "archived", "deleted"], "required": true },
+    { "name": "processing_status", "type": "enum", "values": ["pending", "processing", "completed", "failed"], "required": true },
+    { "name": "created_at", "type": "datetime", "format": "iso8601", "required": true },
+    { "name": "updated_at", "type": "datetime", "format": "iso8601", "required": true },
+    {
+      "name": "properties",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "fields": [
+          { "name": "definition_key", "type": "string", "required": true },
+          { "name": "value", "type": "polymorphic", "oneOf": ["string", "number", "boolean", "datetime"], "required": true }
+        ]
+      }
+    }
+  ],
+  "relationships": [
+    { "name": "group", "target": "Group", "cardinality": "many-to-one" },
+    { "name": "properties", "target": "DocumentProperty", "cardinality": "one-to-many" }
+  ]
+}

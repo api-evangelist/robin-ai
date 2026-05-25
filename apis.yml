@@ -1,0 +1,256 @@
+aid: robin-ai
+name: Robin AI
+description: >-
+  Robin AI is a London-headquartered legal intelligence platform founded in
+  2019 by former Clifford Chance disputes lawyer Richard Robinson and machine
+  learning researcher James Clough. The platform automates contract review,
+  drafting, search, obligation tracking, and structured extraction for
+  enterprise legal teams via a Microsoft Word add-in, a web workspace, and a
+  public REST API. Robin AI shipped on Anthropic's Claude models (Claude 3
+  entered the stack in March 2024) and processed 500k+ documents for customers
+  including KPMG, PwC, Pfizer, GE, UBS, and PepsiCo, advertising 80% faster
+  contract review and 3-second clause search. The company's public-facing
+  Robin Legal Intelligence Platform API (openapi 3.1.0, version 0.2.0-dev,
+  base URL https://api.robinai.com, X-API-Key auth) exposes Documents,
+  Templates, Tables, Properties, and Groups — the Tables API is the flagship
+  extraction surface that turns unstructured legal text into clean structured
+  data tables for CLMs, CRMs, ERPs, BI dashboards, and risk engines. NOTE
+  Robin AI collapsed in late 2025 after failing to close a $50M funding round;
+  the managed services arm was acquired by Scissero in December 2025 and the
+  engineering team was acqui-hired by Microsoft in January 2026 to strengthen
+  Word's legal AI capabilities. This profile documents the API surface as it
+  was published at robinai.com/robin-api.
+type: Index
+position: Provider
+access: 3rd-Party
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Legal
+  - LegalTech
+  - Contract Review
+  - Contract Analysis
+  - Contract Lifecycle Management
+  - CLM
+  - Document Extraction
+  - Structured Data
+  - Legal AI
+  - Artificial Intelligence
+  - Word Add-In
+  - Playbook
+  - Redlining
+  - Obligation Tracking
+  - Anthropic
+  - Claude
+url: https://raw.githubusercontent.com/api-evangelist/robin-ai/refs/heads/main/apis.yml
+created: '2026-05-24'
+modified: '2026-05-24'
+specificationVersion: '0.20'
+apis:
+  - aid: robin-ai:robin-legal-intelligence-platform-api
+    name: Robin Legal Intelligence Platform API
+    description: >-
+      Public REST API for Robin AI's Legal Intelligence Platform. Exposes the
+      Tables extraction engine, Documents store, reusable extraction
+      Templates, custom document Properties, and organizational Groups. All
+      requests authenticate with an X-API-Key header against
+      https://api.robinai.com. JSON responses use cursor pagination via
+      `limit` and `starting_after`, support ISO 8601 date-range filters, and
+      include clickable Citations linking extracted answers back to the
+      originating contract span. The Tables endpoints are the primary surface
+      for high-volume contract analytics — create a Table from a Template and
+      a set of Document IDs, build it, then page through the Results to load
+      structured answers into CLMs, CRMs, ERPs, BI dashboards, or risk
+      engines.
+    humanURL: https://robinai.com/robin-api
+    baseURL: https://api.robinai.com
+    tags:
+      - Contracts
+      - Documents
+      - Tables
+      - Templates
+      - Properties
+      - Groups
+      - Extraction
+      - Legal AI
+    properties:
+      - type: Documentation
+        url: https://robinai.com/robin-api
+      - type: Documentation
+        url: https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+      - type: OpenAPI
+        url: openapi/robin-ai-openapi.yml
+      - type: JSONSchema
+        url: json-schema/robin-ai-document-schema.json
+      - type: JSONSchema
+        url: json-schema/robin-ai-table-schema.json
+      - type: JSONSchema
+        url: json-schema/robin-ai-template-schema.json
+      - type: JSONLD
+        url: json-ld/robin-ai-context.jsonld
+      - type: NaftikoCapability
+        url: capabilities/contract-extraction.yaml
+      - type: NaftikoCapability
+        url: capabilities/document-management.yaml
+common:
+  - type: Website
+    url: https://robinai.com
+  - type: Portal
+    url: https://robinai.com/robin-api
+    name: Robin API Portal
+  - type: Documentation
+    url: https://robinai.com/robin-api
+    name: Robin Legal Intelligence Platform API Documentation
+  - type: Documentation
+    url: https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+    name: Introducing Robin's Tables API
+  - type: Documentation
+    url: https://robinai.com/news-and-resources/robin-university/legal-intelligence-platform-an-ai-powered-hub-for-all-your-legal-data
+    name: Legal Intelligence Platform Overview
+  - type: Documentation
+    url: https://robinai.com/news-and-resources/robin-university/how-to-streamline-your-contract-review-with-robin-ai
+    name: How to Streamline Contract Review with Robin AI
+  - type: Documentation
+    url: https://robinai.com/news-and-resources/guides-reports/legal-ai-buyers-guide
+    name: Legal AI Buyer's Guide
+  - type: SignUp
+    url: https://app.robinai.com
+    name: Robin AI Web App
+  - type: SignUp
+    url: https://robinai.com/demo
+    name: Request a Demo
+  - type: Pricing
+    url: https://robinai.com/pricing
+  - type: Plans
+    url: plans/robin-ai-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/robin-ai-rate-limits.yml
+  - type: FinOps
+    url: finops/robin-ai-finops.yml
+  - type: TrustCenter
+    url: https://security.robinai.com
+  - type: PrivacyPolicy
+    url: https://robinai.com/privacy
+  - type: TermsOfService
+    url: https://robinai.com/terms
+  - type: Blog
+    url: https://robinai.com/news-and-resources/blog
+  - type: Newsroom
+    url: https://robinai.com/news-and-resources
+  - type: Careers
+    url: https://robinai.com/company/careers
+  - type: Company
+    url: https://robinai.com/company
+  - type: Contact
+    url: https://robinai.com/contact
+  - type: Support
+    url: https://robinai.com/help
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/robinai
+  - type: Twitter
+    url: https://twitter.com/Robin_LegalAI
+  - type: YouTube
+    url: https://www.youtube.com/@robinaichannel
+  - type: GitHubOrganization
+    url: https://github.com/ai-robin
+  - type: Marketplace
+    url: https://aws.amazon.com/marketplace/reviews/reviews-list/prodview-zvgmcfv4tqtma
+    name: AWS Marketplace
+  - type: Marketplace
+    url: https://marketplace.microsoft.com/en-in/product/office/WA200006060
+    name: Microsoft AppSource (Word Add-In)
+  - type: Integration
+    url: https://robinai.com/robin-api
+    name: Microsoft Word Add-In
+  - type: Customers
+    data:
+      - KPMG
+      - PwC
+      - Pfizer
+      - GE
+      - UBS
+      - PepsiCo
+    description: Enterprise customers including 13 Fortune 500 companies and major private equity firms.
+  - type: Partners
+    data:
+      - Anthropic
+      - AWS
+      - Microsoft
+    description: Strategic partners. Robin AI runs on Anthropic's Claude model family and is hosted on AWS; Microsoft acqui-hired the engineering team in January 2026.
+  - type: Certifications
+    data:
+      - SOC 2
+      - ISO 27001
+      - GDPR
+    description: Privacy by Design methodology with SOC 2, ISO 27001, and GDPR compliance.
+  - type: Office
+    data:
+      - 10 Devonshire Square, London EC2M 4YP, United Kingdom
+      - 450 Park Avenue South, New York, NY 10016, United States
+      - 36 Robinson Road, Level 2, Singapore 068877
+    description: London headquarters with offices in New York and Singapore.
+  - type: Features
+    data:
+      - Tables API — bulk extraction of structured data points from contract portfolios using reusable Templates
+      - Documents API — upload PDFs and Word files, list and filter by name, type, group, and processing status
+      - Templates API — list reusable prompt sets that drive Table extraction (each prompt has name, prompt_text, and typed answer_format)
+      - Properties API — define and assign custom typed properties (string, number, currency, date-time, boolean) to documents
+      - Groups API — organize documents into personal, private, public, and report-scoped groups
+      - Clickable Citations — every Tables answer links back to the originating span in the source document
+      - Microsoft Word Add-In — embeds review and chat directly inside Word, the native drafting surface for lawyers
+      - Workspace web app — collaborative document chat, advanced search, obligation tracking, and renewal alerts
+      - Playbook-based redlining — flags clause deviations from a company's playbook and produces redlined drafts in seconds
+      - Anthropic Claude-powered review — Claude 3 entered the stack in March 2024, enabling large commercial-lease analysis in a single pass
+      - Cursor pagination (limit up to 1000 plus starting_after) and ISO 8601 date-range filters across all list endpoints
+      - X-API-Key header authentication; standard 4xx/5xx error envelope including 402 Payment Required, 422 Unprocessable Entity, and 429 Too Many Requests
+      - GDPR, ISO 27001, and SOC 2 certified; Privacy by Design methodology
+      - Hosted on AWS; available via AWS Marketplace and Microsoft AppSource
+    sources:
+      - https://robinai.com/robin-api
+      - https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+      - https://robinai.com
+      - https://security.robinai.com
+    updated: '2026-05-24'
+  - type: UseCases
+    data:
+      - Auto-populating CLM systems with contract metadata extracted at scale
+      - Eliminating manual data entry from contract intake and onboarding
+      - Running high-volume extraction across thousands of agreements using pre-existing Templates
+      - Risk visualization across large contract portfolios in PowerBI and other BI dashboards
+      - Playbook-based first-pass review and redlining for legal, procurement, and commercial teams
+      - Obligation tracking — payment deadlines, renewals, and reporting duties
+      - Searching a contract estate in natural language and chatting with documents
+    sources:
+      - https://robinai.com/robin-api
+      - https://robinai.com
+    updated: '2026-05-24'
+  - type: Integrations
+    data:
+      - Contract Lifecycle Management (CLM) systems
+      - Customer Relationship Management (CRM) systems
+      - Enterprise Resource Planning (ERP) systems
+      - Business Intelligence dashboards (PowerBI)
+      - Risk engines
+      - Microsoft Word (native Add-In)
+      - Anthropic Claude models
+      - Amazon Web Services
+    sources:
+      - https://robinai.com/robin-api
+      - https://robinai.com
+    updated: '2026-05-24'
+  - type: CompanyStatus
+    data:
+      - Founded 2019 in London by Richard Robinson (CEO) and James Clough (CTO).
+      - October 2025 — failed to close a $50M funding round; entered distressed sale process.
+      - December 2025 — managed services arm acquired by Scissero.
+      - January 2026 — Microsoft acqui-hired the engineering team to strengthen Word for lawyers.
+      - The Robin API (api.robinai.com) and Word Add-In documentation remain published; live availability is uncertain after the wind-down.
+    sources:
+      - https://www.artificiallawyer.com/2026/01/09/microsoft-to-acqui-hire-robin-ai-tech-team/
+      - https://legaltechnology.com/2026/01/12/microsoft-hires-raft-of-robin-ai-engineers-to-bolster-its-word-team/
+      - https://www.legal.io/articles/5779920/Microsoft-Absorbs-Former-Robin-AI-Engineers-Into-Word-Team
+      - https://pitchbook.com/profiles/company/442688-14
+    updated: '2026-05-24'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
