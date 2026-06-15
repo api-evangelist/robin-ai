@@ -1,0 +1,533 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Robin Legal Intelligence Platform API",
+    "version": "0.2.0-dev"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tables",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tables",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/tables",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination; pass the ID of the last item from the previous page."
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "group_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Tables"
+        },
+        {
+          "info": {
+            "name": "Create Table",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.robinai.com/v1/tables",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Table"
+        },
+        {
+          "info": {
+            "name": "Get Table",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/tables/:table_id",
+            "params": [
+              {
+                "name": "table_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Table"
+        },
+        {
+          "info": {
+            "name": "List Table Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/tables/:table_id/results",
+            "params": [
+              {
+                "name": "table_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination; pass the ID of the last item from the previous page."
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Table Results"
+        },
+        {
+          "info": {
+            "name": "Add Documents To Table",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.robinai.com/v1/tables/:table_id/documents",
+            "params": [
+              {
+                "name": "table_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Documents To Table"
+        },
+        {
+          "info": {
+            "name": "Build Table",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.robinai.com/v1/tables/:table_id/build",
+            "params": [
+              {
+                "name": "table_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Build Table"
+        },
+        {
+          "info": {
+            "name": "Cancel Table",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.robinai.com/v1/tables/:table_id/cancel",
+            "params": [
+              {
+                "name": "table_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancel Table"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/templates",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination; pass the ID of the last item from the previous page."
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Templates"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/documents",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination; pass the ID of the last item from the previous page."
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "group",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "List Documents"
+        },
+        {
+          "info": {
+            "name": "Create Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.robinai.com/v1/documents",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "group_id",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create Document"
+        },
+        {
+          "info": {
+            "name": "Get Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/documents/:document_id",
+            "params": [
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Document"
+        },
+        {
+          "info": {
+            "name": "Add Document Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.robinai.com/v1/documents/:document_id/properties",
+            "params": [
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Document Properties"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/properties"
+          },
+          "docs": "List Properties"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.robinai.com/v1/groups",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination; pass the ID of the last item from the previous page."
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_after",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "group_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "is_private",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Groups"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
