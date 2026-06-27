@@ -99,10 +99,10 @@ common:
   - type: Documentation
     url: https://robinai.com/news-and-resources/guides-reports/legal-ai-buyers-guide
     name: Legal AI Buyer's Guide
-  - type: SignUp
+  - type: Signup
     url: https://app.robinai.com
     name: Robin AI Web App
-  - type: SignUp
+  - type: Signup
     url: https://robinai.com/demo
     name: Request a Demo
   - type: Pricing
@@ -145,7 +145,7 @@ common:
   - type: Marketplace
     url: https://marketplace.microsoft.com/en-in/product/office/WA200006060
     name: Microsoft AppSource (Word Add-In)
-  - type: Integration
+  - type: Integrations
     url: https://robinai.com/robin-api
     name: Microsoft Word Add-In
   - type: Customers
