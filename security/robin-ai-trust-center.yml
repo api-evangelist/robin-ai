@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://robinai.com/security
+url: https://robinai.com/security
+certifications:
+- SOC 2
+- ISO 27001
+- GDPR
+evidence:
+- source: https://robinai.com/security
+  keywords:
+  - soc 2
+  - soc2
+  - trust center
+  - gdpr

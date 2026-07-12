@@ -77,6 +77,12 @@ apis:
       - type: JSONLD
         url: json-ld/robin-ai-context.jsonld
 common:
+  - type: TrustCenter
+    url: security/robin-ai-trust-center.yml
+  - type: DomainSecurity
+    url: security/robin-ai-domain-security.yml
+  - type: Authentication
+    url: authentication/robin-ai-authentication.yml
   - type: Website
     url: https://robinai.com
   - type: Portal
