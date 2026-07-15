@@ -77,6 +77,8 @@ apis:
       - type: JSONLD
         url: json-ld/robin-ai-context.jsonld
 common:
+  - type: AgenticAccess
+    url: agentic-access/robin-ai-agentic-access.yml
   - type: TrustCenter
     url: security/robin-ai-trust-center.yml
   - type: DomainSecurity
