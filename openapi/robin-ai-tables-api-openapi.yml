@@ -1,0 +1,497 @@
+openapi: 3.1.0
+info:
+  title: Robin Legal Intelligence Platform Documents Tables API
+  version: 0.2.0-dev
+  description: 'Robin AI''s public REST API for legal contract intelligence. Exposes the
+
+    Tables extraction engine, Documents store, reusable extraction Templates,
+
+    typed Properties, and organizational Groups. Authenticate every request
+
+    with an `X-API-Key` header. Lists support cursor pagination (`limit`,
+
+    `starting_after`) and ISO 8601 date-range filters. Tables Results include
+
+    clickable Citations linking every extracted answer back to the source
+
+    span in the contract.
+
+    '
+  contact:
+    name: Robin AI
+    url: https://robinai.com/robin-api
+  license:
+    name: Proprietary
+    url: https://robinai.com/terms
+servers:
+- url: https://api.robinai.com
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Tables
+  description: Bulk structured extraction from contract portfolios
+paths:
+  /v1/tables:
+    get:
+      operationId: listTables
+      summary: List Tables
+      tags:
+      - Tables
+      parameters:
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/StartingAfter'
+      - $ref: '#/components/parameters/CreatedBefore'
+      - $ref: '#/components/parameters/CreatedAfter'
+      - $ref: '#/components/parameters/UpdatedBefore'
+      - $ref: '#/components/parameters/UpdatedAfter'
+      - name: name
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: status
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - draft
+            - building
+            - completed
+            - failed
+            - cancelled
+      - name: group_id
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTablesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: createTable
+      summary: Create Table
+      tags:
+      - Tables
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTableRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTableResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          $ref: '#/components/responses/PaymentRequired'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /v1/tables/{table_id}:
+    get:
+      operationId: getTable
+      summary: Get Table
+      tags:
+      - Tables
+      parameters:
+      - $ref: '#/components/parameters/TableId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTableResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/tables/{table_id}/results:
+    get:
+      operationId: listTableResults
+      summary: List Table Results
+      tags:
+      - Tables
+      parameters:
+      - $ref: '#/components/parameters/TableId'
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/StartingAfter'
+      - $ref: '#/components/parameters/CreatedBefore'
+      - $ref: '#/components/parameters/CreatedAfter'
+      - $ref: '#/components/parameters/UpdatedBefore'
+      - $ref: '#/components/parameters/UpdatedAfter'
+      - name: document_id
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: status
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - pending
+            - building
+            - completed
+            - failed
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResultsResponse'
+  /v1/tables/{table_id}/documents:
+    post:
+      operationId: addDocumentsToTable
+      summary: Add Documents To Table
+      tags:
+      - Tables
+      parameters:
+      - $ref: '#/components/parameters/TableId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDocumentsRequest'
+      responses:
+        '201':
+          description: Created
+  /v1/tables/{table_id}/build:
+    put:
+      operationId: buildTable
+      summary: Build Table
+      tags:
+      - Tables
+      parameters:
+      - $ref: '#/components/parameters/TableId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '201':
+          description: Created
+  /v1/tables/{table_id}/cancel:
+    put:
+      operationId: cancelTable
+      summary: Cancel Table
+      tags:
+      - Tables
+      parameters:
+      - $ref: '#/components/parameters/TableId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: OK
+components:
+  responses:
+    PaymentRequired:
+      description: Payment Required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    AddDocumentsRequest:
+      type: object
+      required:
+      - document_ids
+      properties:
+        document_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+    TableStatus:
+      type: string
+      enum:
+      - draft
+      - building
+      - completed
+      - failed
+      - cancelled
+    AnswerFormat:
+      type: string
+      enum:
+      - text_summary
+      - text_word
+      - number_general
+      - number_currency
+      - number_percentage
+      - date
+      - boolean
+      - list
+    ResultStatus:
+      type: string
+      enum:
+      - pending
+      - building
+      - completed
+      - failed
+    TableRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          example: tbl_11abcd1234efgh6789
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/TableStatus'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        failed_at:
+          type: string
+          format: date-time
+          nullable: true
+        cancelled_at:
+          type: string
+          format: date-time
+          nullable: true
+        document_count:
+          type: integer
+        result_count:
+          type: integer
+        group_id:
+          type: string
+        group_name:
+          type: string
+    GetTableResponse:
+      type: object
+      properties:
+        table:
+          $ref: '#/components/schemas/TableRecord'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: string
+    CreateTableRequest:
+      type: object
+      required:
+      - name
+      - template_id
+      - document_ids
+      properties:
+        name:
+          type: string
+        template_id:
+          type: string
+        document_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+        include_citations:
+          type: boolean
+          default: true
+        group_id:
+          type: string
+    Citation:
+      type: object
+      properties:
+        page:
+          type: integer
+        text:
+          type: string
+        bbox:
+          type: array
+          items:
+            type: number
+    CreateTableResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          $ref: '#/components/schemas/TableStatus'
+    TableResultDocument:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    TableResult:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResultStatus'
+        prompt:
+          $ref: '#/components/schemas/Prompt'
+        document:
+          $ref: '#/components/schemas/TableResultDocument'
+        answer:
+          oneOf:
+          - $ref: '#/components/schemas/Answer'
+          - type: 'null'
+        citations:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Citation'
+    Answer:
+      type: object
+      properties:
+        value:
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+        formatted:
+          type: string
+    Prompt:
+      type: object
+      properties:
+        name:
+          type: string
+        prompt_text:
+          type: string
+        answer_format:
+          $ref: '#/components/schemas/AnswerFormat'
+    ListTablesResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableRecord'
+    ListResultsResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableResult'
+  parameters:
+    CreatedBefore:
+      name: created_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    CreatedAfter:
+      name: created_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    UpdatedAfter:
+      name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+    TableId:
+      name: table_id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: tbl_11abcd1234efgh6789
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key

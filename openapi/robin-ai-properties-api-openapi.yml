@@ -1,0 +1,76 @@
+openapi: 3.1.0
+info:
+  title: Robin Legal Intelligence Platform Documents Properties API
+  version: 0.2.0-dev
+  description: 'Robin AI''s public REST API for legal contract intelligence. Exposes the
+
+    Tables extraction engine, Documents store, reusable extraction Templates,
+
+    typed Properties, and organizational Groups. Authenticate every request
+
+    with an `X-API-Key` header. Lists support cursor pagination (`limit`,
+
+    `starting_after`) and ISO 8601 date-range filters. Tables Results include
+
+    clickable Citations linking every extracted answer back to the source
+
+    span in the contract.
+
+    '
+  contact:
+    name: Robin AI
+    url: https://robinai.com/robin-api
+  license:
+    name: Proprietary
+    url: https://robinai.com/terms
+servers:
+- url: https://api.robinai.com
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Properties
+  description: Typed custom property definitions for documents
+paths:
+  /v1/properties:
+    get:
+      operationId: listProperties
+      summary: List Properties
+      tags:
+      - Properties
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPropertiesResponse'
+components:
+  schemas:
+    DocumentPropertyDefinition:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        value_type:
+          type: string
+          enum:
+          - string
+          - number
+          - currency
+          - date-time
+          - boolean
+    ListPropertiesResponse:
+      type: object
+      properties:
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentPropertyDefinition'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key

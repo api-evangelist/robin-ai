@@ -1,0 +1,156 @@
+openapi: 3.1.0
+info:
+  title: Robin Legal Intelligence Platform Documents Groups API
+  version: 0.2.0-dev
+  description: 'Robin AI''s public REST API for legal contract intelligence. Exposes the
+
+    Tables extraction engine, Documents store, reusable extraction Templates,
+
+    typed Properties, and organizational Groups. Authenticate every request
+
+    with an `X-API-Key` header. Lists support cursor pagination (`limit`,
+
+    `starting_after`) and ISO 8601 date-range filters. Tables Results include
+
+    clickable Citations linking every extracted answer back to the source
+
+    span in the contract.
+
+    '
+  contact:
+    name: Robin AI
+    url: https://robinai.com/robin-api
+  license:
+    name: Proprietary
+    url: https://robinai.com/terms
+servers:
+- url: https://api.robinai.com
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Groups
+  description: Organizational containers for documents and tables
+paths:
+  /v1/groups:
+    get:
+      operationId: listGroups
+      summary: List Groups
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/StartingAfter'
+      - $ref: '#/components/parameters/CreatedBefore'
+      - $ref: '#/components/parameters/CreatedAfter'
+      - $ref: '#/components/parameters/UpdatedBefore'
+      - $ref: '#/components/parameters/UpdatedAfter'
+      - name: name
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: group_type
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - personal
+            - private
+            - public
+            - report_public
+            - report_private
+      - name: is_private
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListGroupsResponse'
+components:
+  schemas:
+    GroupType:
+      type: string
+      enum:
+      - personal
+      - private
+      - public
+      - report_public
+      - report_private
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        group_type:
+          $ref: '#/components/schemas/GroupType'
+        is_private:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ListGroupsResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+  parameters:
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    CreatedBefore:
+      name: created_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    UpdatedAfter:
+      name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
+    CreatedAfter:
+      name: created_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
