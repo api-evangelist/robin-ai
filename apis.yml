@@ -14,9 +14,22 @@ description: >-
   Scissero in December 2025 and the engineering team was acqui-hired by Microsoft in January 2026 to strengthen Word's
   legal AI capabilities. This profile documents the API surface as it was published at robinai.com/robin-api.
 type: Index
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Provider
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/robin-ai.png
 tags:
   - Legal
   - LegalTech
@@ -39,43 +52,121 @@ created: '2026-05-24'
 modified: '2026-05-24'
 specificationVersion: '0.20'
 apis:
-  - aid: robin-ai:robin-legal-intelligence-platform-api
-    name: Robin Legal Intelligence Platform API
-    description: >-
-      Public REST API for Robin AI's Legal Intelligence Platform. Exposes the Tables extraction engine, Documents store,
-      reusable extraction Templates, custom document Properties, and organizational Groups. All requests authenticate
-      with an X-API-Key header against https://api.robinai.com. JSON responses use cursor pagination via `limit` and
-      `starting_after`, support ISO 8601 date-range filters, and include clickable Citations linking extracted answers
-      back to the originating contract span. The Tables endpoints are the primary surface for high-volume contract
-      analytics — create a Table from a Template and a set of Document IDs, build it, then page through the Results to
-      load structured answers into CLMs, CRMs, ERPs, BI dashboards, or risk engines.
-    humanURL: https://robinai.com/robin-api
-    baseURL: https://api.robinai.com
-    tags:
-      - Contracts
-      - Documents
-      - Tables
-      - Templates
-      - Properties
-      - Groups
-      - Extraction
-      - Legal AI
-    properties:
-      - type: Documentation
-        url: https://robinai.com/robin-api
-      - type: Documentation
-        url: >-
-          https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
-      - type: OpenAPI
-        url: openapi/robin-ai-openapi.yml
-      - type: JSONSchema
-        url: json-schema/robin-ai-document-schema.json
-      - type: JSONSchema
-        url: json-schema/robin-ai-table-schema.json
-      - type: JSONSchema
-        url: json-schema/robin-ai-template-schema.json
-      - type: JSONLD
-        url: json-ld/robin-ai-context.jsonld
+- aid: robin-ai:robin-ai-documents-api
+  name: Robin AI Documents API
+  description: Upload and manage legal documents
+  humanURL: https://robinai.com/robin-api
+  baseURL: https://api.robinai.com
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/robin-ai-documents-api-openapi.yml
+  - type: Documentation
+    url: https://robinai.com/robin-api
+  - type: Documentation
+    url: >-
+      https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+  - type: JSONSchema
+    url: json-schema/robin-ai-document-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-table-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-template-schema.json
+  - type: JSONLD
+    url: json-ld/robin-ai-context.jsonld
+- aid: robin-ai:robin-ai-groups-api
+  name: Robin AI Groups API
+  description: Organizational containers for documents and tables
+  humanURL: https://robinai.com/robin-api
+  baseURL: https://api.robinai.com
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/robin-ai-groups-api-openapi.yml
+  - type: Documentation
+    url: https://robinai.com/robin-api
+  - type: Documentation
+    url: >-
+      https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+  - type: JSONSchema
+    url: json-schema/robin-ai-document-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-table-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-template-schema.json
+  - type: JSONLD
+    url: json-ld/robin-ai-context.jsonld
+- aid: robin-ai:robin-ai-properties-api
+  name: Robin AI Properties API
+  description: Typed custom property definitions for documents
+  humanURL: https://robinai.com/robin-api
+  baseURL: https://api.robinai.com
+  tags:
+  - Properties
+  properties:
+  - type: OpenAPI
+    url: openapi/robin-ai-properties-api-openapi.yml
+  - type: Documentation
+    url: https://robinai.com/robin-api
+  - type: Documentation
+    url: >-
+      https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+  - type: JSONSchema
+    url: json-schema/robin-ai-document-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-table-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-template-schema.json
+  - type: JSONLD
+    url: json-ld/robin-ai-context.jsonld
+- aid: robin-ai:robin-ai-tables-api
+  name: Robin AI Tables API
+  description: Bulk structured extraction from contract portfolios
+  humanURL: https://robinai.com/robin-api
+  baseURL: https://api.robinai.com
+  tags:
+  - Tables
+  properties:
+  - type: OpenAPI
+    url: openapi/robin-ai-tables-api-openapi.yml
+  - type: Documentation
+    url: https://robinai.com/robin-api
+  - type: Documentation
+    url: >-
+      https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+  - type: JSONSchema
+    url: json-schema/robin-ai-document-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-table-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-template-schema.json
+  - type: JSONLD
+    url: json-ld/robin-ai-context.jsonld
+- aid: robin-ai:robin-ai-templates-api
+  name: Robin AI Templates API
+  description: Reusable prompt sets that drive Table extraction
+  humanURL: https://robinai.com/robin-api
+  baseURL: https://api.robinai.com
+  tags:
+  - Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/robin-ai-templates-api-openapi.yml
+  - type: Documentation
+    url: https://robinai.com/robin-api
+  - type: Documentation
+    url: >-
+      https://robinai.com/news-and-resources/blog/introducing-robins-tables-api-unlock-structured-data-from-legal-documents
+  - type: JSONSchema
+    url: json-schema/robin-ai-document-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-table-schema.json
+  - type: JSONSchema
+    url: json-schema/robin-ai-template-schema.json
+  - type: JSONLD
+    url: json-ld/robin-ai-context.jsonld
 common:
   - type: AgenticAccess
     url: agentic-access/robin-ai-agentic-access.yml
