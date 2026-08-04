@@ -1,0 +1,22 @@
+{
+  "provider": "robin-ai",
+  "sources": [
+    "robin-ai-documents-api-openapi.yml",
+    "robin-ai-groups-api-openapi.yml",
+    "robin-ai-properties-api-openapi.yml",
+    "robin-ai-tables-api-openapi.yml",
+    "robin-ai-templates-api-openapi.yml"
+  ],
+  "outputs": [
+    "robin-ai-documents-api-openapi.yml",
+    "robin-ai-groups-api-openapi.yml",
+    "robin-ai-properties-api-openapi.yml",
+    "robin-ai-tables-api-openapi.yml",
+    "robin-ai-templates-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

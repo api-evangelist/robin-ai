@@ -1,0 +1,644 @@
+openapi: 3.1.0
+info:
+  title: Robin Legal Intelligence Platform API
+  version: 0.2.0-dev
+  description: |
+    Robin AI's public REST API for legal contract intelligence. Exposes the
+    Tables extraction engine, Documents store, reusable extraction Templates,
+    typed Properties, and organizational Groups. Authenticate every request
+    with an `X-API-Key` header. Lists support cursor pagination (`limit`,
+    `starting_after`) and ISO 8601 date-range filters. Tables Results include
+    clickable Citations linking every extracted answer back to the source
+    span in the contract.
+  contact:
+    name: Robin AI
+    url: https://robinai.com/robin-api
+  license:
+    name: Proprietary
+    url: https://robinai.com/terms
+servers:
+  - url: https://api.robinai.com
+    description: Production
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: Tables
+    description: Bulk structured extraction from contract portfolios
+  - name: Documents
+    description: Upload and manage legal documents
+  - name: Templates
+    description: Reusable prompt sets that drive Table extraction
+  - name: Properties
+    description: Typed custom property definitions for documents
+  - name: Groups
+    description: Organizational containers for documents and tables
+paths:
+  /v1/tables:
+    get:
+      operationId: listTables
+      summary: List Tables
+      tags: [Tables]
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/StartingAfter'
+        - $ref: '#/components/parameters/CreatedBefore'
+        - $ref: '#/components/parameters/CreatedAfter'
+        - $ref: '#/components/parameters/UpdatedBefore'
+        - $ref: '#/components/parameters/UpdatedAfter'
+        - name: name
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: status
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [draft, building, completed, failed, cancelled]
+        - name: group_id
+          in: query
+          schema: { type: array, items: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ListTablesResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+    post:
+      operationId: createTable
+      summary: Create Table
+      tags: [Tables]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateTableRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CreateTableResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '402': { $ref: '#/components/responses/PaymentRequired' }
+        '422': { $ref: '#/components/responses/UnprocessableEntity' }
+  /v1/tables/{table_id}:
+    get:
+      operationId: getTable
+      summary: Get Table
+      tags: [Tables]
+      parameters:
+        - $ref: '#/components/parameters/TableId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/GetTableResponse' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /v1/tables/{table_id}/results:
+    get:
+      operationId: listTableResults
+      summary: List Table Results
+      tags: [Tables]
+      parameters:
+        - $ref: '#/components/parameters/TableId'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/StartingAfter'
+        - $ref: '#/components/parameters/CreatedBefore'
+        - $ref: '#/components/parameters/CreatedAfter'
+        - $ref: '#/components/parameters/UpdatedBefore'
+        - $ref: '#/components/parameters/UpdatedAfter'
+        - name: document_id
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: status
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [pending, building, completed, failed]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ListResultsResponse' }
+  /v1/tables/{table_id}/documents:
+    post:
+      operationId: addDocumentsToTable
+      summary: Add Documents To Table
+      tags: [Tables]
+      parameters:
+        - $ref: '#/components/parameters/TableId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AddDocumentsRequest' }
+      responses:
+        '201': { description: Created }
+  /v1/tables/{table_id}/build:
+    put:
+      operationId: buildTable
+      summary: Build Table
+      tags: [Tables]
+      parameters:
+        - $ref: '#/components/parameters/TableId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { type: object, additionalProperties: true }
+      responses:
+        '201': { description: Created }
+  /v1/tables/{table_id}/cancel:
+    put:
+      operationId: cancelTable
+      summary: Cancel Table
+      tags: [Tables]
+      parameters:
+        - $ref: '#/components/parameters/TableId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { type: object, additionalProperties: true }
+      responses:
+        '200': { description: OK }
+  /v1/templates:
+    get:
+      operationId: listTemplates
+      summary: List Templates
+      tags: [Templates]
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/StartingAfter'
+        - $ref: '#/components/parameters/CreatedBefore'
+        - $ref: '#/components/parameters/CreatedAfter'
+        - $ref: '#/components/parameters/UpdatedBefore'
+        - $ref: '#/components/parameters/UpdatedAfter'
+        - name: name
+          in: query
+          schema: { type: array, items: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ListTemplatesResponse' }
+  /v1/documents:
+    get:
+      operationId: listDocuments
+      summary: List Documents
+      tags: [Documents]
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/StartingAfter'
+        - $ref: '#/components/parameters/CreatedBefore'
+        - $ref: '#/components/parameters/CreatedAfter'
+        - $ref: '#/components/parameters/UpdatedBefore'
+        - $ref: '#/components/parameters/UpdatedAfter'
+        - name: name
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: id
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: type
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: group
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: status
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [active, inactive, archived, deleted]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ListDocumentsRequestBody' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ListDocumentsResponse' }
+    post:
+      operationId: createDocument
+      summary: Create Document
+      tags: [Documents]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                group_id:
+                  type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DocumentRecord' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '402': { $ref: '#/components/responses/PaymentRequired' }
+        '422': { $ref: '#/components/responses/UnprocessableEntity' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /v1/documents/{document_id}:
+    get:
+      operationId: getDocument
+      summary: Get Document
+      tags: [Documents]
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DocumentRecord' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /v1/documents/{document_id}/properties:
+    post:
+      operationId: addDocumentProperties
+      summary: Add Document Properties
+      tags: [Documents]
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: '#/components/schemas/PropertyInput' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DocumentRecord' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/UnprocessableEntity' }
+  /v1/properties:
+    get:
+      operationId: listProperties
+      summary: List Properties
+      tags: [Properties]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ListPropertiesResponse' }
+  /v1/groups:
+    get:
+      operationId: listGroups
+      summary: List Groups
+      tags: [Groups]
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/StartingAfter'
+        - $ref: '#/components/parameters/CreatedBefore'
+        - $ref: '#/components/parameters/CreatedAfter'
+        - $ref: '#/components/parameters/UpdatedBefore'
+        - $ref: '#/components/parameters/UpdatedAfter'
+        - name: name
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: group_type
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [personal, private, public, report_public, report_private]
+        - name: is_private
+          in: query
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ListGroupsResponse' }
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 1000, default: 100 }
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema: { type: string }
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
+    CreatedBefore:
+      name: created_before
+      in: query
+      schema: { type: string, format: date-time }
+    CreatedAfter:
+      name: created_after
+      in: query
+      schema: { type: string, format: date-time }
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema: { type: string, format: date-time }
+    UpdatedAfter:
+      name: updated_after
+      in: query
+      schema: { type: string, format: date-time }
+    TableId:
+      name: table_id
+      in: path
+      required: true
+      schema: { type: string, example: tbl_11abcd1234efgh6789 }
+    DocumentId:
+      name: document_id
+      in: path
+      required: true
+      schema: { type: string, example: doc_11abcd1234efgh6789 }
+  responses:
+    BadRequest:
+      description: Bad Request
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Unauthorized:
+      description: Unauthorized
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    PaymentRequired:
+      description: Payment Required
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    NotFound:
+      description: Not Found
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    TooManyRequests:
+      description: Too Many Requests
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+  schemas:
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+        message: { type: string }
+        code: { type: string }
+    TableStatus:
+      type: string
+      enum: [draft, building, completed, failed, cancelled]
+    DocumentStatus:
+      type: string
+      enum: [active, inactive, archived, deleted]
+    ProcessingStatus:
+      type: string
+      enum: [pending, processing, completed, failed]
+    ResultStatus:
+      type: string
+      enum: [pending, building, completed, failed]
+    AnswerFormat:
+      type: string
+      enum:
+        - text_summary
+        - text_word
+        - number_general
+        - number_currency
+        - number_percentage
+        - date
+        - boolean
+        - list
+    GroupType:
+      type: string
+      enum: [personal, private, public, report_public, report_private]
+    TableRecord:
+      type: object
+      properties:
+        id: { type: string, example: tbl_11abcd1234efgh6789 }
+        name: { type: string }
+        status: { $ref: '#/components/schemas/TableStatus' }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        started_at: { type: string, format: date-time, nullable: true }
+        completed_at: { type: string, format: date-time, nullable: true }
+        failed_at: { type: string, format: date-time, nullable: true }
+        cancelled_at: { type: string, format: date-time, nullable: true }
+        document_count: { type: integer }
+        result_count: { type: integer }
+        group_id: { type: string }
+        group_name: { type: string }
+    DocumentRecord:
+      type: object
+      properties:
+        id: { type: string, example: doc_11abcd1234efgh6789 }
+        name: { type: string }
+        type: { type: string, nullable: true }
+        group: { type: string, nullable: true }
+        document_status: { $ref: '#/components/schemas/DocumentStatus' }
+        processing_status: { $ref: '#/components/schemas/ProcessingStatus' }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        properties:
+          type: array
+          items: { $ref: '#/components/schemas/DocumentProperty' }
+    Template:
+      type: object
+      properties:
+        id: { type: string, example: tpl_11abcd1234efgh6789 }
+        name: { type: string }
+        description: { type: string }
+        prompts:
+          type: array
+          items: { $ref: '#/components/schemas/Prompt' }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+    Prompt:
+      type: object
+      properties:
+        name: { type: string }
+        prompt_text: { type: string }
+        answer_format: { $ref: '#/components/schemas/AnswerFormat' }
+    Citation:
+      type: object
+      properties:
+        page: { type: integer }
+        text: { type: string }
+        bbox:
+          type: array
+          items: { type: number }
+    Answer:
+      type: object
+      properties:
+        value:
+          oneOf:
+            - { type: string }
+            - { type: number }
+            - { type: boolean }
+        formatted: { type: string }
+    TableResultDocument:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    TableResult:
+      type: object
+      properties:
+        status: { $ref: '#/components/schemas/ResultStatus' }
+        prompt: { $ref: '#/components/schemas/Prompt' }
+        document: { $ref: '#/components/schemas/TableResultDocument' }
+        answer:
+          oneOf:
+            - { $ref: '#/components/schemas/Answer' }
+            - { type: 'null' }
+        citations:
+          type: array
+          nullable: true
+          items: { $ref: '#/components/schemas/Citation' }
+    DocumentProperty:
+      type: object
+      properties:
+        definition_key: { type: string }
+        value:
+          oneOf:
+            - { type: string }
+            - { type: number }
+            - { type: boolean }
+            - { type: string, format: date-time }
+    DocumentPropertyDefinition:
+      type: object
+      properties:
+        key: { type: string }
+        name: { type: string }
+        value_type:
+          type: string
+          enum: [string, number, currency, date-time, boolean]
+    PropertyInput:
+      type: object
+      required: [definition_key, value]
+      properties:
+        definition_key: { type: string }
+        value:
+          oneOf:
+            - { type: string }
+            - { type: number }
+            - { type: boolean }
+            - { type: string, format: date-time }
+    PropertyFilter:
+      type: object
+      properties:
+        definition_key: { type: string }
+        operator:
+          type: string
+          enum: [eq, neq, gt, gte, lt, lte, contains]
+        value:
+          oneOf:
+            - { type: string }
+            - { type: number }
+            - { type: boolean }
+    Group:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        group_type: { $ref: '#/components/schemas/GroupType' }
+        is_private: { type: boolean }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+    CreateTableRequest:
+      type: object
+      required: [name, template_id, document_ids]
+      properties:
+        name: { type: string }
+        template_id: { type: string }
+        document_ids:
+          type: array
+          minItems: 1
+          items: { type: string }
+        include_citations: { type: boolean, default: true }
+        group_id: { type: string }
+    CreateTableResponse:
+      type: object
+      properties:
+        id: { type: string }
+        status: { $ref: '#/components/schemas/TableStatus' }
+    GetTableResponse:
+      type: object
+      properties:
+        table: { $ref: '#/components/schemas/TableRecord' }
+    AddDocumentsRequest:
+      type: object
+      required: [document_ids]
+      properties:
+        document_ids:
+          type: array
+          minItems: 1
+          items: { type: string }
+    ListTablesResponse:
+      type: object
+      properties:
+        has_more: { type: boolean }
+        tables:
+          type: array
+          items: { $ref: '#/components/schemas/TableRecord' }
+    ListResultsResponse:
+      type: object
+      properties:
+        has_more: { type: boolean }
+        results:
+          type: array
+          items: { $ref: '#/components/schemas/TableResult' }
+    ListTemplatesResponse:
+      type: object
+      properties:
+        has_more: { type: boolean }
+        templates:
+          type: array
+          items: { $ref: '#/components/schemas/Template' }
+    ListDocumentsRequestBody:
+      type: object
+      properties:
+        properties:
+          type: array
+          items: { $ref: '#/components/schemas/PropertyFilter' }
+    ListDocumentsResponse:
+      type: object
+      properties:
+        has_more: { type: boolean }
+        documents:
+          type: array
+          items: { $ref: '#/components/schemas/DocumentRecord' }
+    ListPropertiesResponse:
+      type: object
+      properties:
+        properties:
+          type: array
+          items: { $ref: '#/components/schemas/DocumentPropertyDefinition' }
+    ListGroupsResponse:
+      type: object
+      properties:
+        has_more: { type: boolean }
+        groups:
+          type: array
+          items: { $ref: '#/components/schemas/Group' }
