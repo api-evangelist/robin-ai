@@ -1,0 +1,126 @@
+{
+  "item": [
+    {
+      "id": "b42dbade-3907-4a7a-a72b-aae97169a99a",
+      "name": "Properties",
+      "description": {
+        "content": "Typed custom property definitions for documents",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b4b6c134-617c-4b40-9219-0501e982e6bb",
+          "name": "List Properties",
+          "request": {
+            "name": "List Properties",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "properties"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "83e191a1-06c7-4eb3-9987-5469b1bbe083",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "properties"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": [\n    {\n      \"key\": \"string\",\n      \"name\": \"string\",\n      \"value_type\": \"number\"\n    },\n    {\n      \"key\": \"string\",\n      \"name\": \"string\",\n      \"value_type\": \"number\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.robinai.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e76fac37-1b9e-4224-91bc-3005686e6054",
+    "name": "Robin Legal Intelligence Platform Documents Properties API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Robin AI's public REST API for legal contract intelligence. Exposes the\nTables extraction engine, Documents store, reusable extraction Templates,\ntyped Properties, and organizational Groups. Authenticate every request\nwith an `X-API-Key` header. Lists support cursor pagination (`limit`,\n`starting_after`) and ISO 8601 date-range filters. Tables Results include\nclickable Citations linking every extracted answer back to the source\nspan in the contract.\n\n\nContact Support:\n Name: Robin AI",
+      "type": "text/plain"
+    }
+  }
+}
