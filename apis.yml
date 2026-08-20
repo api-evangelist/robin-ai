@@ -32,6 +32,23 @@ access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/robin-ai.png
 tags:
   - Legal
+  - Legal Tech
+  - Contract Review
+  - Contract Analysis
+  - Contract Lifecycle Management
+  - CLM
+  - Document Extraction
+  - Structured Data
+  - Legal AI
+  - Artificial Intelligence
+  - Word Add-In
+  - Playbook
+  - Redlining
+  - Obligation Tracking
+  - Anthropic
+  - Claude
+tags_raw:
+  - Legal
   - LegalTech
   - Contract Review
   - Contract Analysis
@@ -81,6 +98,8 @@ apis:
   humanURL: https://robinai.com/robin-api
   baseURL: https://api.robinai.com
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
