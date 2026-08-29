@@ -14,6 +14,18 @@ description: >-
   Scissero in December 2025 and the engineering team was acqui-hired by Microsoft in January 2026 to strengthen Word's
   legal AI capabilities. This profile documents the API surface as it was published at robinai.com/robin-api.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
