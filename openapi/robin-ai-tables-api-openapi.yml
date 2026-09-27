@@ -214,25 +214,24 @@ paths:
           description: OK
 components:
   schemas:
-    Answer:
+    TableResultDocument:
       type: object
       properties:
-        value:
-          oneOf:
-          - type: string
-          - type: number
-          - type: boolean
-        formatted:
+        id:
           type: string
-    ListResultsResponse:
+        name:
+          type: string
+    Citation:
       type: object
       properties:
-        has_more:
-          type: boolean
-        results:
+        page:
+          type: integer
+        text:
+          type: string
+        bbox:
           type: array
           items:
-            $ref: '#/components/schemas/TableResult'
+            type: number
     ListTablesResponse:
       type: object
       properties:
@@ -242,35 +241,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TableRecord'
-    CreateTableResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          $ref: '#/components/schemas/TableStatus'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: string
-    TableStatus:
+    ResultStatus:
       type: string
       enum:
-      - draft
+      - pending
       - building
       - completed
       - failed
-      - cancelled
-    GetTableResponse:
-      type: object
-      properties:
-        table:
-          $ref: '#/components/schemas/TableRecord'
     TableResult:
       type: object
       properties:
@@ -289,24 +266,20 @@ components:
           nullable: true
           items:
             $ref: '#/components/schemas/Citation'
-    Citation:
+    Error:
       type: object
       properties:
-        page:
-          type: integer
-        text:
+        error:
           type: string
-        bbox:
-          type: array
-          items:
-            type: number
-    TableResultDocument:
+        message:
+          type: string
+        code:
+          type: string
+    GetTableResponse:
       type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
+        table:
+          $ref: '#/components/schemas/TableRecord'
     CreateTableRequest:
       type: object
       required:
@@ -328,6 +301,39 @@ components:
           default: true
         group_id:
           type: string
+    Prompt:
+      type: object
+      properties:
+        name:
+          type: string
+        prompt_text:
+          type: string
+        answer_format:
+          $ref: '#/components/schemas/AnswerFormat'
+    CreateTableResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          $ref: '#/components/schemas/TableStatus'
+    TableStatus:
+      type: string
+      enum:
+      - draft
+      - building
+      - completed
+      - failed
+      - cancelled
+    ListResultsResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableResult'
     AnswerFormat:
       type: string
       enum:
@@ -339,6 +345,26 @@ components:
       - date
       - boolean
       - list
+    AddDocumentsRequest:
+      type: object
+      required:
+      - document_ids
+      properties:
+        document_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+    Answer:
+      type: object
+      properties:
+        value:
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+        formatted:
+          type: string
     TableRecord:
       type: object
       properties:
@@ -379,53 +405,9 @@ components:
           type: string
         group_name:
           type: string
-    ResultStatus:
-      type: string
-      enum:
-      - pending
-      - building
-      - completed
-      - failed
-    Prompt:
-      type: object
-      properties:
-        name:
-          type: string
-        prompt_text:
-          type: string
-        answer_format:
-          $ref: '#/components/schemas/AnswerFormat'
-    AddDocumentsRequest:
-      type: object
-      required:
-      - document_ids
-      properties:
-        document_ids:
-          type: array
-          minItems: 1
-          items:
-            type: string
   responses:
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: Unprocessable Entity
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request
       content:
         application/json:
           schema:
@@ -436,19 +418,31 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    CreatedAfter:
-      name: created_after
-      in: query
-      schema:
-        type: string
-        format: date-time
     Limit:
       name: limit
       in: query
@@ -457,26 +451,14 @@ components:
         minimum: 1
         maximum: 1000
         default: 100
-    CreatedBefore:
-      name: created_before
-      in: query
-      schema:
-        type: string
-        format: date-time
-    StartingAfter:
-      name: starting_after
-      in: query
-      schema:
-        type: string
-      description: Cursor for pagination; pass the ID of the last item from the previous page.
-    UpdatedBefore:
-      name: updated_before
-      in: query
-      schema:
-        type: string
-        format: date-time
     UpdatedAfter:
       name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    UpdatedBefore:
+      name: updated_before
       in: query
       schema:
         type: string
@@ -488,6 +470,24 @@ components:
       schema:
         type: string
         example: tbl_11abcd1234efgh6789
+    CreatedAfter:
+      name: created_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
+    CreatedBefore:
+      name: created_before
+      in: query
+      schema:
+        type: string
+        format: date-time
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
