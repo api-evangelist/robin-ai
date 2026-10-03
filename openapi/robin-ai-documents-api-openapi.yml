@@ -172,90 +172,36 @@ paths:
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
 components:
-  responses:
-    TooManyRequests:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    PaymentRequired:
-      description: Payment Required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: Unprocessable Entity
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Limit:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 100
-    UpdatedAfter:
-      name: updated_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-    UpdatedBefore:
-      name: updated_before
-      in: query
-      schema:
-        type: string
-        format: date-time
-    CreatedAfter:
-      name: created_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-    StartingAfter:
-      name: starting_after
-      in: query
-      schema:
-        type: string
-      description: Cursor for pagination; pass the ID of the last item from the previous page.
-    DocumentId:
-      name: document_id
-      in: path
-      required: true
-      schema:
-        type: string
-        example: doc_11abcd1234efgh6789
-    CreatedBefore:
-      name: created_before
-      in: query
-      schema:
-        type: string
-        format: date-time
   schemas:
+    ListDocumentsRequestBody:
+      type: object
+      properties:
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyFilter'
+    PropertyInput:
+      type: object
+      required:
+      - definition_key
+      - value
+      properties:
+        definition_key:
+          type: string
+        value:
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+          - type: string
+            format: date-time
+    DocumentStatus:
+      type: string
+      enum:
+      - active
+      - inactive
+      - archived
+      - deleted
     ProcessingStatus:
       type: string
       enum:
@@ -263,24 +209,6 @@ components:
       - processing
       - completed
       - failed
-    ListDocumentsResponse:
-      type: object
-      properties:
-        has_more:
-          type: boolean
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentRecord'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: string
     PropertyFilter:
       type: object
       properties:
@@ -301,11 +229,8 @@ components:
           - type: string
           - type: number
           - type: boolean
-    PropertyInput:
+    DocumentProperty:
       type: object
-      required:
-      - definition_key
-      - value
       properties:
         definition_key:
           type: string
@@ -316,6 +241,24 @@ components:
           - type: boolean
           - type: string
             format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: string
+    ListDocumentsResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentRecord'
     DocumentRecord:
       type: object
       properties:
@@ -344,32 +287,89 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DocumentProperty'
-    ListDocumentsRequestBody:
-      type: object
-      properties:
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/PropertyFilter'
-    DocumentStatus:
-      type: string
-      enum:
-      - active
-      - inactive
-      - archived
-      - deleted
-    DocumentProperty:
-      type: object
-      properties:
-        definition_key:
-          type: string
-        value:
-          oneOf:
-          - type: string
-          - type: number
-          - type: boolean
-          - type: string
-            format: date-time
+  parameters:
+    UpdatedAfter:
+      name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+    CreatedBefore:
+      name: created_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    CreatedAfter:
+      name: created_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    DocumentId:
+      name: document_id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: doc_11abcd1234efgh6789
+  responses:
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    PaymentRequired:
+      description: Payment Required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

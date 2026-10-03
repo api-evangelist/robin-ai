@@ -213,25 +213,90 @@ paths:
         '200':
           description: OK
 components:
+  parameters:
+    UpdatedAfter:
+      name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    TableId:
+      name: table_id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: tbl_11abcd1234efgh6789
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+    CreatedBefore:
+      name: created_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    CreatedAfter:
+      name: created_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+  responses:
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    PaymentRequired:
+      description: Payment Required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    TableResultDocument:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-    Citation:
-      type: object
-      properties:
-        page:
-          type: integer
-        text:
-          type: string
-        bbox:
-          type: array
-          items:
-            type: number
     ListTablesResponse:
       type: object
       properties:
@@ -241,130 +306,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TableRecord'
-    ResultStatus:
-      type: string
-      enum:
-      - pending
-      - building
-      - completed
-      - failed
-    TableResult:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/ResultStatus'
-        prompt:
-          $ref: '#/components/schemas/Prompt'
-        document:
-          $ref: '#/components/schemas/TableResultDocument'
-        answer:
-          oneOf:
-          - $ref: '#/components/schemas/Answer'
-          - type: 'null'
-        citations:
-          type: array
-          nullable: true
-          items:
-            $ref: '#/components/schemas/Citation'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: string
     GetTableResponse:
       type: object
       properties:
         table:
           $ref: '#/components/schemas/TableRecord'
-    CreateTableRequest:
-      type: object
-      required:
-      - name
-      - template_id
-      - document_ids
-      properties:
-        name:
-          type: string
-        template_id:
-          type: string
-        document_ids:
-          type: array
-          minItems: 1
-          items:
-            type: string
-        include_citations:
-          type: boolean
-          default: true
-        group_id:
-          type: string
-    Prompt:
-      type: object
-      properties:
-        name:
-          type: string
-        prompt_text:
-          type: string
-        answer_format:
-          $ref: '#/components/schemas/AnswerFormat'
-    CreateTableResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          $ref: '#/components/schemas/TableStatus'
-    TableStatus:
-      type: string
-      enum:
-      - draft
-      - building
-      - completed
-      - failed
-      - cancelled
-    ListResultsResponse:
-      type: object
-      properties:
-        has_more:
-          type: boolean
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TableResult'
-    AnswerFormat:
-      type: string
-      enum:
-      - text_summary
-      - text_word
-      - number_general
-      - number_currency
-      - number_percentage
-      - date
-      - boolean
-      - list
-    AddDocumentsRequest:
-      type: object
-      required:
-      - document_ids
-      properties:
-        document_ids:
-          type: array
-          minItems: 1
-          items:
-            type: string
-    Answer:
-      type: object
-      properties:
-        value:
-          oneOf:
-          - type: string
-          - type: number
-          - type: boolean
-        formatted:
-          type: string
     TableRecord:
       type: object
       properties:
@@ -405,89 +351,143 @@ components:
           type: string
         group_name:
           type: string
-  responses:
-    TooManyRequests:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    PaymentRequired:
-      description: Payment Required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: Unprocessable Entity
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Limit:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 100
-    UpdatedAfter:
-      name: updated_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-    UpdatedBefore:
-      name: updated_before
-      in: query
-      schema:
-        type: string
-        format: date-time
-    TableId:
-      name: table_id
-      in: path
-      required: true
-      schema:
-        type: string
-        example: tbl_11abcd1234efgh6789
-    CreatedAfter:
-      name: created_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-    StartingAfter:
-      name: starting_after
-      in: query
-      schema:
-        type: string
-      description: Cursor for pagination; pass the ID of the last item from the previous page.
-    CreatedBefore:
-      name: created_before
-      in: query
-      schema:
-        type: string
-        format: date-time
+    TableStatus:
+      type: string
+      enum:
+      - draft
+      - building
+      - completed
+      - failed
+      - cancelled
+    TableResult:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResultStatus'
+        prompt:
+          $ref: '#/components/schemas/Prompt'
+        document:
+          $ref: '#/components/schemas/TableResultDocument'
+        answer:
+          oneOf:
+          - $ref: '#/components/schemas/Answer'
+          - type: 'null'
+        citations:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Citation'
+    AddDocumentsRequest:
+      type: object
+      required:
+      - document_ids
+      properties:
+        document_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+    Citation:
+      type: object
+      properties:
+        page:
+          type: integer
+        text:
+          type: string
+        bbox:
+          type: array
+          items:
+            type: number
+    Answer:
+      type: object
+      properties:
+        value:
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+        formatted:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: string
+    TableResultDocument:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Prompt:
+      type: object
+      properties:
+        name:
+          type: string
+        prompt_text:
+          type: string
+        answer_format:
+          $ref: '#/components/schemas/AnswerFormat'
+    AnswerFormat:
+      type: string
+      enum:
+      - text_summary
+      - text_word
+      - number_general
+      - number_currency
+      - number_percentage
+      - date
+      - boolean
+      - list
+    ListResultsResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableResult'
+    CreateTableResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          $ref: '#/components/schemas/TableStatus'
+    ResultStatus:
+      type: string
+      enum:
+      - pending
+      - building
+      - completed
+      - failed
+    CreateTableRequest:
+      type: object
+      required:
+      - name
+      - template_id
+      - document_ids
+      properties:
+        name:
+          type: string
+        template_id:
+          type: string
+        document_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+        include_citations:
+          type: boolean
+          default: true
+        group_id:
+          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
