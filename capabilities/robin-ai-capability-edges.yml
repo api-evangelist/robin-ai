@@ -1,0 +1,34 @@
+slug: robin-ai
+provider: Robin AI
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Documents
+  spec_file: robin-ai-documents-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.8
+  evidence: POST /v1/documents  createDocument — "Robin AI's public REST API for legal contract intelligence"
+  reason: Documents here are contracts stored for legal review and extraction; the document store underpins
+    contract lifecycle management. Generic tag but context clearly ties to contracts.
+- tag: Tables
+  spec_file: robin-ai-tables-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.8
+  evidence: 'POST /v1/tables  createTable; GET /v1/tables/{table_id}/results  listTableResults; schemas:
+    Citation, Answer, Prompt'
+  reason: The Tables extraction engine answers prompts against contracts with citations back to the source
+    span — automated contract review/data extraction supporting contract lifecycle management.

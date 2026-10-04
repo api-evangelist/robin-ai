@@ -199,6 +199,9 @@ apis:
   - type: JSONLD
     url: json-ld/robin-ai-context.jsonld
 common:
+  - type: CapabilityMap
+    url: capabilities/robin-ai-capability-edges.yml
+    name: Robin AI Business Capability Map
   - type: AgenticAccess
     url: agentic-access/robin-ai-agentic-access.yml
   - type: TrustCenter
