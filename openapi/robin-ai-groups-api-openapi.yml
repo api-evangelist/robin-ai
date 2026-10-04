@@ -91,14 +91,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    GroupType:
-      type: string
-      enum:
-      - personal
-      - private
-      - public
-      - report_public
-      - report_private
     ListGroupsResponse:
       type: object
       properties:
@@ -108,6 +100,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Group'
+    GroupType:
+      type: string
+      enum:
+      - personal
+      - private
+      - public
+      - report_public
+      - report_private
   parameters:
     CreatedAfter:
       name: created_after
@@ -115,8 +115,26 @@ components:
       schema:
         type: string
         format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
     UpdatedAfter:
       name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    CreatedBefore:
+      name: created_before
       in: query
       schema:
         type: string
@@ -129,24 +147,6 @@ components:
         minimum: 1
         maximum: 1000
         default: 100
-    CreatedBefore:
-      name: created_before
-      in: query
-      schema:
-        type: string
-        format: date-time
-    StartingAfter:
-      name: starting_after
-      in: query
-      schema:
-        type: string
-      description: Cursor for pagination; pass the ID of the last item from the previous page.
-    UpdatedBefore:
-      name: updated_before
-      in: query
-      schema:
-        type: string
-        format: date-time
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -58,35 +58,6 @@ paths:
                 $ref: '#/components/schemas/ListTemplatesResponse'
 components:
   schemas:
-    Prompt:
-      type: object
-      properties:
-        name:
-          type: string
-        prompt_text:
-          type: string
-        answer_format:
-          $ref: '#/components/schemas/AnswerFormat'
-    AnswerFormat:
-      type: string
-      enum:
-      - text_summary
-      - text_word
-      - number_general
-      - number_currency
-      - number_percentage
-      - date
-      - boolean
-      - list
-    ListTemplatesResponse:
-      type: object
-      properties:
-        has_more:
-          type: boolean
-        templates:
-          type: array
-          items:
-            $ref: '#/components/schemas/Template'
     Template:
       type: object
       properties:
@@ -107,6 +78,35 @@ components:
         updated_at:
           type: string
           format: date-time
+    AnswerFormat:
+      type: string
+      enum:
+      - text_summary
+      - text_word
+      - number_general
+      - number_currency
+      - number_percentage
+      - date
+      - boolean
+      - list
+    Prompt:
+      type: object
+      properties:
+        name:
+          type: string
+        prompt_text:
+          type: string
+        answer_format:
+          $ref: '#/components/schemas/AnswerFormat'
+    ListTemplatesResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
   parameters:
     CreatedAfter:
       name: created_after
@@ -114,8 +114,26 @@ components:
       schema:
         type: string
         format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
     UpdatedAfter:
       name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    CreatedBefore:
+      name: created_before
       in: query
       schema:
         type: string
@@ -128,24 +146,6 @@ components:
         minimum: 1
         maximum: 1000
         default: 100
-    CreatedBefore:
-      name: created_before
-      in: query
-      schema:
-        type: string
-        format: date-time
-    StartingAfter:
-      name: starting_after
-      in: query
-      schema:
-        type: string
-      description: Cursor for pagination; pass the ID of the last item from the previous page.
-    UpdatedBefore:
-      name: updated_before
-      in: query
-      schema:
-        type: string
-        format: date-time
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
