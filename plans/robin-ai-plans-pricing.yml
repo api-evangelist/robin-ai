@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 aid: robin-ai
 name: Robin AI Plans and Pricing
 specificationVersion: API Commons Plans 0.1
@@ -61,3 +65,34 @@ plans:
     pricing: Quote
     sources:
       - https://aws.amazon.com/marketplace/reviews/reviews-list/prodview-zvgmcfv4tqtma
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  units: []
+  plans:
+  - name: Robin for Microsoft Word
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Robin Workspace
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Robin Legal Intelligence Platform API
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Robin AI on AWS Marketplace
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
