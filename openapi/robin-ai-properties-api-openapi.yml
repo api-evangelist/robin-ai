@@ -45,6 +45,13 @@ paths:
                 $ref: '#/components/schemas/ListPropertiesResponse'
 components:
   schemas:
+    ListPropertiesResponse:
+      type: object
+      properties:
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentPropertyDefinition'
     DocumentPropertyDefinition:
       type: object
       properties:
@@ -60,13 +67,6 @@ components:
           - currency
           - date-time
           - boolean
-    ListPropertiesResponse:
-      type: object
-      properties:
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentPropertyDefinition'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

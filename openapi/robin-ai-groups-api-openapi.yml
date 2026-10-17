@@ -74,6 +74,23 @@ paths:
                 $ref: '#/components/schemas/ListGroupsResponse'
 components:
   schemas:
+    GroupType:
+      type: string
+      enum:
+      - personal
+      - private
+      - public
+      - report_public
+      - report_private
+    ListGroupsResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
     Group:
       type: object
       properties:
@@ -91,50 +108,9 @@ components:
         updated_at:
           type: string
           format: date-time
-    ListGroupsResponse:
-      type: object
-      properties:
-        has_more:
-          type: boolean
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group'
-    GroupType:
-      type: string
-      enum:
-      - personal
-      - private
-      - public
-      - report_public
-      - report_private
   parameters:
     CreatedAfter:
       name: created_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-    StartingAfter:
-      name: starting_after
-      in: query
-      schema:
-        type: string
-      description: Cursor for pagination; pass the ID of the last item from the previous page.
-    UpdatedAfter:
-      name: updated_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-    UpdatedBefore:
-      name: updated_before
-      in: query
-      schema:
-        type: string
-        format: date-time
-    CreatedBefore:
-      name: created_before
       in: query
       schema:
         type: string
@@ -147,6 +123,30 @@ components:
         minimum: 1
         maximum: 1000
         default: 100
+    UpdatedBefore:
+      name: updated_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    CreatedBefore:
+      name: created_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    UpdatedAfter:
+      name: updated_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    StartingAfter:
+      name: starting_after
+      in: query
+      schema:
+        type: string
+      description: Cursor for pagination; pass the ID of the last item from the previous page.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
