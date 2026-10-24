@@ -1,108 +1,43 @@
 {
+  "info": {
+    "_postman_id": "8119e466-8729-4ef8-8a7c-c16f685b3b48",
+    "name": "Robin Legal Intelligence Platform Groups API",
+    "description": "Robin AI's public REST API for legal contract intelligence. Exposes the\nTables extraction engine, Documents store, reusable extraction Templates,\ntyped Properties, and organizational Groups. Authenticate every request\nwith an `X-API-Key` header. Lists support cursor pagination (`limit`,\n`starting_after`) and ISO 8601 date-range filters. Tables Results include\nclickable Citations linking every extracted answer back to the source\nspan in the contract.\n\nContact Support:\n Name: Robin AI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-21T19:52:41.000Z",
+    "updatedAt": "2026-10-21T19:52:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8119e466-8729-4ef8-8a7c-c16f685b3b48"
+  },
   "item": [
     {
-      "id": "e844bfbb-2dfa-4dc0-8edd-e9cc15bced64",
-      "name": "Groups",
-      "description": {
-        "content": "Organizational containers for documents and tables",
-        "type": "text/plain"
-      },
+      "name": "v1",
       "item": [
         {
-          "id": "405a9ce9-4854-491e-b812-07a0f24d3dc2",
-          "name": "List Groups",
-          "request": {
-            "name": "List Groups",
-            "description": {},
-            "url": {
-              "path": [
-                "v1",
-                "groups"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "100"
-                },
-                {
-                  "disabled": false,
-                  "key": "starting_after",
-                  "value": "<string>",
-                  "description": "Cursor for pagination; pass the ID of the last item from the previous page."
-                },
-                {
-                  "disabled": false,
-                  "key": "created_before",
-                  "value": "<dateTime>"
-                },
-                {
-                  "disabled": false,
-                  "key": "created_after",
-                  "value": "<dateTime>"
-                },
-                {
-                  "disabled": false,
-                  "key": "updated_before",
-                  "value": "<dateTime>"
-                },
-                {
-                  "disabled": false,
-                  "key": "updated_after",
-                  "value": "<dateTime>"
-                },
-                {
-                  "disabled": false,
-                  "key": "name",
-                  "value": "<string>"
-                },
-                {
-                  "disabled": false,
-                  "key": "name",
-                  "value": "<string>"
-                },
-                {
-                  "disabled": false,
-                  "key": "group_type",
-                  "value": "<string>"
-                },
-                {
-                  "disabled": false,
-                  "key": "group_type",
-                  "value": "<string>"
-                },
-                {
-                  "disabled": false,
-                  "key": "is_private",
-                  "value": "<boolean>"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "groups",
+          "item": [
             {
-              "id": "9ae6b5ab-0416-442b-a6a8-b762fd3f940e",
-              "name": "OK",
-              "originalRequest": {
+              "name": "List Groups",
+              "id": "e36dc7ef-97de-4acb-948f-a29ba47a703c",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
                 "url": {
+                  "raw": "{{baseUrl}}/v1/groups?limit=100&starting_after=<string>&created_before=<dateTime>&created_after=<dateTime>&updated_before=<dateTime>&updated_after=<dateTime>&name=<string>&name=<string>&group_type=personal&group_type=personal&is_private=<boolean>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "v1",
                     "groups"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
                   ],
                   "query": [
                     {
@@ -110,6 +45,7 @@
                       "value": "100"
                     },
                     {
+                      "description": "Cursor for pagination; pass the ID of the last item from the previous page.",
                       "key": "starting_after",
                       "value": "<string>"
                     },
@@ -139,64 +75,118 @@
                     },
                     {
                       "key": "group_type",
-                      "value": "<string>"
+                      "value": "personal"
                     },
                     {
                       "key": "group_type",
-                      "value": "<string>"
+                      "value": "personal"
                     },
                     {
                       "key": "is_private",
                       "value": "<boolean>"
                     }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "X-API-Key",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
+                  ]
+                }
               },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "response": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "2488889e-3b5c-4d23-adb8-dded80a5c505",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-API-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/groups?limit=100&starting_after=<string>&created_before=<dateTime>&created_after=<dateTime>&updated_before=<dateTime>&updated_after=<dateTime>&name=<string>&group_type=personal&is_private=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "groups"
+                      ],
+                      "query": [
+                        {
+                          "key": "limit",
+                          "value": "100"
+                        },
+                        {
+                          "description": "Cursor for pagination; pass the ID of the last item from the previous page.",
+                          "key": "starting_after",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "created_before",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "key": "created_after",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "key": "updated_before",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "key": "updated_after",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "key": "name",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "group_type",
+                          "value": "personal"
+                        },
+                        {
+                          "key": "is_private",
+                          "value": "<boolean>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"has_more\": \"<boolean>\",\n  \"groups\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"group_type\": \"personal\",\n      \"is_private\": \"<boolean>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"group_type\": \"private\",\n      \"is_private\": \"<boolean>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-10-21T19:52:42.000Z",
+                  "updatedAt": "2026-10-21T19:52:42.000Z",
+                  "uid": "35240-2488889e-3b5c-4d23-adb8-dded80a5c505"
                 }
               ],
-              "body": "{\n  \"has_more\": true,\n  \"groups\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"group_type\": \"report_private\",\n      \"is_private\": false,\n      \"created_at\": \"1987-01-22T11:45:23.890Z\",\n      \"updated_at\": \"1964-06-07T06:37:35.780Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"group_type\": \"report_public\",\n      \"is_private\": false,\n      \"created_at\": \"1994-01-05T02:08:04.005Z\",\n      \"updated_at\": \"2023-11-15T14:04:46.675Z\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "createdAt": "2026-10-21T19:52:42.000Z",
+              "updatedAt": "2026-10-21T19:52:42.000Z",
+              "uid": "35240-e36dc7ef-97de-4acb-948f-a29ba47a703c"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "41b2887a-55fd-4f00-afae-8f834e38f186",
+          "createdAt": "2026-10-21T19:52:42.000Z",
+          "updatedAt": "2026-10-21T19:52:42.000Z",
+          "uid": "35240-41b2887a-55fd-4f00-afae-8f834e38f186"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
-    {
-      "type": "string",
-      "value": "https://api.robinai.com",
-      "key": "baseUrl"
+      "id": "81dc4924-df72-4e0e-a84c-5c7f8245ef18",
+      "createdAt": "2026-10-21T19:52:42.000Z",
+      "updatedAt": "2026-10-21T19:52:42.000Z",
+      "uid": "35240-81dc4924-df72-4e0e-a84c-5c7f8245ef18"
     }
   ],
   "auth": {
@@ -204,25 +194,25 @@
     "apikey": [
       {
         "key": "key",
-        "value": "X-API-Key"
+        "value": "X-API-Key",
+        "type": "string"
       },
       {
         "key": "value",
-        "value": "{{apiKey}}"
+        "value": "{{apiKey}}",
+        "type": "string"
       },
       {
         "key": "in",
-        "value": "header"
+        "value": "header",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "2078ac04-a8db-4266-a169-755ffb99c38a",
-    "name": "Robin Legal Intelligence Platform Documents Groups API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "Robin AI's public REST API for legal contract intelligence. Exposes the\nTables extraction engine, Documents store, reusable extraction Templates,\ntyped Properties, and organizational Groups. Authenticate every request\nwith an `X-API-Key` header. Lists support cursor pagination (`limit`,\n`starting_after`) and ISO 8601 date-range filters. Tables Results include\nclickable Citations linking every extracted answer back to the source\nspan in the contract.\n\n\nContact Support:\n Name: Robin AI",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.robinai.com"
     }
-  }
+  ]
 }
